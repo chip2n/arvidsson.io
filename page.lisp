@@ -202,7 +202,7 @@
      (:page-header :title ,title :src ,src)
      (:div :id "project-container"
        (:div :class "document" ,@body)
-       (:project-sidebar ,sidebar))))
+       ,(when sidebar `(:project-sidebar ,sidebar)))))
 
 (define-tag project-sidebar ()
   `(:div :class "game-feature-box" ,@body))
