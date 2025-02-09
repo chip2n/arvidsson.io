@@ -1,0 +1,352 @@
+@import https://rsms.me/inter/inter.css;
+
+:root {
+    --surface-sunken: #1b1e24;
+    --surface-default: #21242B;
+    --surface-raised: #2c3039;
+    --accent: #52C6EB;
+    --outline: #FFFFFF20;
+    --focus-color: #FFFFFF;
+    --focus-width: 2px;
+    --text-primary: #FFFFFFFF;
+    --text-secondary: #FFFFFF50;
+}
+
+html {
+    font-family: monospace;
+    font-size: 14px;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 1024px;
+    height: 100%;
+    background-color: var(--surface-default);
+    color: var(--text-primary);
+    overflow-y: scroll;
+}
+
+#root-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0px 32px;
+    /* justify-content: space-between; */
+}
+
+#root-content {
+    margin: 32px 0px;
+    flex-grow: 1;
+}
+
+.post-meta-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.post-meta-bar .h-menu {
+    margin-left: 16px;
+}
+
+.post-meta-bar .post-meta-bar-tag {
+    color: #ffffff80;
+}
+
+.org-source-block {
+    background: #1B1E24;
+    outline: 1px solid var(--outline);
+    border-radius: 16px;
+    padding: 0 16px;
+    overflow: scroll;
+}
+
+.org-source-block pre {
+    margin: 16px 0;
+}
+
+.org-source-block code {
+    font-family: monospace;
+}
+
+#site-header {
+    display: flex;
+    flex-direction: row;
+    padding: 128px 0 0 0;
+    margin-bottom: 8px;
+    font-weight: bold;
+
+    @media (max-width: 704px) {
+        padding: 64px 0 0 0;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+#site-header-menu {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media (max-width: 704px) {
+        margin-top: 8px;
+        justify-content: center;
+    }
+}
+
+#site-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 64px;
+    color: var(--outline);
+}
+
+#game-footer {
+    height: 64px;
+    width: 100%;
+}
+
+.menu-item-icon {
+    height: 16px;
+    width: 16px;
+    margin: 0 0 0 12px;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.menu-item-icon:hover,
+.menu-item-icon:focus
+{
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.menu-item-selected {
+    font-weight: bold;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+ul.h-menu {
+    margin: auto 0;
+    padding-inline-start: 0px;
+}
+
+ul.h-menu li {
+    display: inline;
+    padding: 0 0px 0px 8px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--outline);
+    padding-bottom: 8px;
+    margin-bottom: 32px;
+}
+
+h1 {
+    color: #FFFFFF;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: #FFFFFF;
+    position: relative;
+}
+
+.document h2 {
+    margin-top: 32px;
+}
+
+.document h2::before {
+    content: "#";
+    position: absolute;
+    left: -24px;
+    color: var(--accent);
+    font-weight: normal;
+}
+
+.document ul {
+    padding-inline-start: 16px;
+}
+
+.divider {
+    flex-grow: 1;
+    border: dashed 1px #FFFFFF;
+    margin: 5px;
+}
+
+hr {
+    margin: 0;
+    border: none;
+    height: 1px;
+    width: 100%;
+    color: var(--outline);
+    background-color: var(--outline);
+}
+
+a {
+    color: var(--accent);
+    font-weight: bold;
+    font-family: monospace;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-skip-ink: none;
+}
+
+#game-container {
+    display: flex;
+    background-color: #000000;
+    outline: 1px solid var(--outline);
+    border-radius: 16px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+}
+
+.game {
+    width: 960px;
+    height: 720px;
+    border: 0;
+    overflow: hidden;
+    display: block;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+
+    @media (max-width: 1024px) {
+        width: 640px;
+        height: 480px;
+    }
+
+    @media (max-width: 704px) {
+        width: 320px;
+        height: 240px;
+    }
+}
+
+.game-feature-box {
+    background-color: #1F2228;
+    border: 1px solid var(--outline);
+    border-radius: 16px;
+    padding: 0px 24px;
+    min-width: 140px;
+}
+
+.game-feature-box ul {
+    padding-inline-start: 32px;
+}
+
+.game-feature-box > ul {
+    padding: 0px 0px 0px 0px;
+}
+
+.game-feature-box > ul > li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.project-showcase {
+    display: grid;
+    grid-template-rows: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust as needed */
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 32px;
+    margin: 32px 0px;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--surface-raised);
+    transition: all .2s ease-in-out;
+}
+
+.project-card:hover,
+.project-card:focus-within {
+    transform: translateY(-8px);
+    box-shadow: 0 0 0 var(--focus-width) var(--focus-color);
+}
+
+.project-card a {
+    text-decoration: none;
+}
+
+.project-card .project-body {
+    margin-bottom: 16px;
+}
+
+.project-card > div {
+    margin: 8px 24px 24px 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card > img {
+    width: calc(100% - 64px);
+    padding: 64px 32px;
+    image-rendering: pixelated;
+    background-color: var(--surface-sunken);
+}
+
+.project-card .tags {
+    margin-top: auto;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 8px;
+}
+
+#project-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    @media (max-width: 600px) {
+        flex-direction: column-reverse;
+    }
+}
+
+/* * Utilities for clickable containers */
+
+.clickable-parent a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.focusable-parent:focus-within {
+    box-shadow: 0 0 0 var(--focus-width) var(--focus-color);
+}
+
+.focusable-parent:focus-within :focus {
+    box-shadow: none;
+    outline: none;
+}
