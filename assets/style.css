@@ -149,7 +149,7 @@ ul.h-menu li {
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 32px;
     border-bottom: 1px solid var(--outline);
 }
 
@@ -243,9 +243,12 @@ a:hover {
 }
 
 .project-sidebar {
-    background-color: var(--surface-raised);
     padding: 0px 24px;
-    min-width: 140px;
+    min-width: 200px;
+
+    @media (max-width: 704px) {
+        padding: 0px 0px;
+    }
 }
 
 .project-sidebar ul {
@@ -253,7 +256,14 @@ a:hover {
 }
 
 .project-sidebar > ul {
-    padding: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 24px;
+    border-left: 1px solid var(--outline);
+
+    @media (max-width: 704px) {
+        padding: 24px 0px 0px 0px;
+        border-top: 1px solid var(--outline);
+        border-left: 0;
+    }
 }
 
 .project-sidebar > ul > li {
@@ -336,10 +346,11 @@ a:hover {
 #project-container {
     display: flex;
     flex-direction: row;
-    gap: 24px;
+    gap: 48px;
 
     @media (max-width: 600px) {
-        flex-direction: column-reverse;
+        flex-direction: column;
+        gap: 0;
     }
 }
 

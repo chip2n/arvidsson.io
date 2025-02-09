@@ -159,8 +159,7 @@
        (:div :id "root-container"
          (:site-header
           (:$link :label "[home]" :url "index.html")
-          (:$link :label "[projects]" :url "projects.html")
-          (:$link :label "[about]" :url "about.html"))
+          (:$link :label "[projects]" :url "projects.html"))
          (:div :id "root-content" ,@body)
          (:site-footer)))))
 
@@ -193,24 +192,21 @@
   `(:page
     (:div :class "document"
       (:page-header :title "Home")
-      (:h2 "Section 1")
-      (:p "body1")
-      (:p "body2")
-      (:p "body3")
-      (:h2 "Section 1")
-      (:p "body1")
-      (:p "body2")
-      (:p "body3"))))
+      (:p "Welcome to my tiny corner on the information superhighway known as the World Wide Web! This is the home for my various projects - not many right now, but hopefully the list will grow with time.")
+
+      (:h2 "About me")
+      (:p "I've worked in the software industry professionally since ~2010, but my interests in computers and programming goes all the way back to the late 90s I first encountered tools such as QBasic, Visual Basic and Delphi. Early on, I also took an interest in game development, experimenting with Klik & Play, Game Factory and Blitz3D / DarkBasic.")
+      (:p "After a brief stint as a backend engineer (Python + Tornado), I moved into world of mobile development (native development using Swift/Kotlin as well as cross-platform development using Flutter). My current position is CTO at Remente, in charge of both platforms as well as auxiliary things like UI/UX and general product development.")
+      (:p "I love learning new programming languages and have dabbled in most popular ones, but I currently favor Zig (when I need performance and cross-platform executables) and Common Lisp (when I want to mess around with fancy macros). I'm also a big fan of Emacs (sorry vimmers - but you're cool too).")
+      (:p "I also love music and play guitar, bass, tenor saxophone and harmonica 🎵"))))
 
 ;; ** Projects
 
-(define-tag project-root (title src hero sidebar)
+(define-tag project-root (title src hero)
   `(:div :class "document"
      (:page-header :title ,title :src ,src)
      ,hero
-     (:div :id "project-container"
-       ,@body
-       ,(when sidebar `(:project-sidebar ,sidebar)))))
+     ,@body))
 
 (define-tag project-sidebar ()
   `(:div :class "project-sidebar" ,@body))
@@ -254,27 +250,29 @@
      :title "ZBall"
      :src "https://github.com/chip2n/zball"
      :hero (:game-canvas)
-     :sidebar (:ul
-                (:li (:span "Language: " (:$link :label "Zig" :url "https://ziglang.org/")))
-                (:li "Platforms:"
-                  (:ul
-                    (:li "Windows")
-                    (:li "Mac")
-                    (:li "Linux")
-                    (:li "Web")))
-                (:li "Dependencies:"
-                  (:ul
-                    (:li (:$link :label "sokol" :url "https://github.com/floooh/sokol"))
-                    (:li (:$link :label "stb_image" :url "https://github.com/nothings/stb")))))
-     (:div
-       (:p "A clone of the classic Breakout/Arkanoid game, with way too many particle effects added. I wrote this game mainly as an exercise in actually finishing a project for once. I picked Breakout since I figured it would be one of the simpler games to make, while still providing the opportunity to extend it with more fancy stuff through power ups.")
-       (:h2 "Implementation")
-       (:p "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM).")
-       (:h2 "Controls")
-       (:ul
-         (:li "Mouse / Arrow keys: Move the paddle")
-         (:li "Space: Activate power-up")
-         (:li "Backspace: Open menu / Go back"))))))
+     (:div :id "project-container"
+       (:div
+         (:p "A clone of the classic Breakout/Arkanoid game, with way too many particle effects added. I wrote this game mainly as an exercise in actually finishing a project for once. I picked Breakout since I figured it would be one of the simpler games to make, while still providing the opportunity to extend it with more fancy stuff through power ups.")
+         (:h2 "Implementation")
+         (:p "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM).")
+         (:h2 "Controls")
+         (:ul
+           (:li "Mouse / Arrow keys: Move the paddle")
+           (:li "Space: Activate power-up")
+           (:li "Backspace: Open menu / Go back")))
+       (:project-sidebar
+        (:ul
+          (:li (:span "Language: " (:$link :label "Zig" :url "https://ziglang.org/")))
+          (:li "Platforms:"
+            (:ul
+              (:li "Windows")
+              (:li "Mac")
+              (:li "Linux")
+              (:li "Web")))
+          (:li "Dependencies:"
+            (:ul
+              (:li (:$link :label "sokol" :url "https://github.com/floooh/sokol"))
+              (:li (:$link :label "stb_image" :url "https://github.com/nothings/stb"))))))))))
 
 (define-tag game-canvas ()
   `(:div
