@@ -114,6 +114,8 @@
     (render-tree out (expand-tags (funcall (get-page :projects)))))
   (alexandria:with-output-to-file (out "/tmp/public/project-zball.html" :if-exists :supersede)
     (render-tree out (expand-tags (funcall (get-page :project-zball)))))
+  (alexandria:with-output-to-file (out "/tmp/public/project-site.html" :if-exists :supersede)
+    (render-tree out (expand-tags (funcall (get-page :project-site)))))
   (uiop:copy-file (asset-path "style.css") #P"/tmp/public/static/style.css")
   (uiop:copy-file (asset-path "live.js") #P"/tmp/public/static/live.js")
   (uiop:copy-file (asset-path "game.js") #P"/tmp/public/static/game.js")
@@ -159,13 +161,12 @@
   `(:div
      (:div :id "site-header"
        ;; TODO content description?
-       (:a :href "index.html" ,(embed-asset "logo.svg"))
+       (:a :id "logo" :href "index.html" ,(embed-asset "logo.svg"))
        (:div :id "site-header-menu"
          (:ul :class "h-menu"
            ,@(loop :for form :in body :collect `(:li ,form)))
          (:a :class "menu-item-icon" :href "https://github.com/chip2n"
-           ,(embed-asset "icon-github.svg"))))
-     (:hr)))
+           ,(embed-asset "icon-github.svg"))))))
 
 (define-tag site-footer ()
   `(:div :id "site-footer"
@@ -184,7 +185,7 @@
 (define-page index ()
   `(:page
     (:div :class "document"
-      (:h1 "Home")
+      (:page-header :title "Home")
       (:h2 "Section 1")
       (:p "body1")
       (:p "body2")
@@ -197,37 +198,46 @@
 ;; ** Projects
 
 (define-tag project-root (title src hero sidebar)
-  `(:div
-     ,hero
+  `(:div :class "document"
      (:page-header :title ,title :src ,src)
+     ,hero
      (:div :id "project-container"
-       (:div :class "document" ,@body)
+       ,@body
        ,(when sidebar `(:project-sidebar ,sidebar)))))
 
 (define-tag project-sidebar ()
-  `(:div :class "game-feature-box" ,@body))
+  `(:div :class "project-sidebar" ,@body))
 
 ;; *** Page: projects.html
 
 (define-page projects ()
   `(:page
-    (:h1 "Projects")
+    (:page-header :title "Projects")
     (:div :class "project-showcase"
       (:project-card
-       :img "static/zball.png"
-       "A clone of the classic Breakout/Arkanoid game."))))
+       :title "zball"
+       :img (:img :class "project-img pixelated" :src "static/zball.png")
+       :tags ("#zig" "#game")
+       :url "project-zball.html"
+       "A clone of the classic Breakout/Arkanoid game.")
+      (:project-card
+       :title "arvidsson.io"
+       :img (:div :class "project-img" ,(embed-asset "project-site.svg"))
+       :tags ("#lisp" "#web")
+       :url "project-site.html"
+       "This website! Generated using some custom lisp code."))))
 
-(define-tag project-card (img)
+(define-tag project-card (title img tags url)
   `(:div :class "project-card clickable-parent focusable-parent"
-     (:img :src ,img)
+     (:div :class "image"
+       ,img)
      (:hr)
-     (:div
-       (:a :href "project-zball.html" (:h2 "zball"))
+     (:div :class "details"
+       (:a :href ,url (:h2 ,title))
        (:div :class "project-body"
          ,@body)
        (:div :class "tags"
-         (:span "#zig")
-         (:span "#game")))))
+         ,@(loop :for tag :in tags :collect `(:span ,tag))))))
 
 ;; *** Page: project-zball.html
 
@@ -250,9 +260,9 @@
                     (:li (:$link :label "sokol" :url "https://github.com/floooh/sokol"))
                     (:li (:$link :label "stb_image" :url "https://github.com/nothings/stb")))))
      (:div
-       "A clone of the classic Breakout/Arkanoid game, with way too many particle effects added. I wrote this game mainly as an exercise in actually finishing a project for once. I picked Breakout since I figured it would be one of the simpler games to make, while still providing the opportunity to extend it with more fancy stuff through power ups."
+       (:p "A clone of the classic Breakout/Arkanoid game, with way too many particle effects added. I wrote this game mainly as an exercise in actually finishing a project for once. I picked Breakout since I figured it would be one of the simpler games to make, while still providing the opportunity to extend it with more fancy stuff through power ups.")
        (:h2 "Implementation")
-       "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM)."
+       (:p "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM).")
        (:h2 "Controls")
        (:ul
          (:li "Mouse / Arrow keys: Move the paddle")
@@ -287,6 +297,25 @@
         console.log(\"onerror: \" + event.message);
       };")
      (:script :async t :src "static/game.js")))
+
+;; *** Page: project-site.html
+
+(define-page project-site ()
+  `(:page
+    (:project-root
+     :title "arvidsson.io"
+     :src "https://github.com/chip2n/arvidsson.io"
+     (:div
+       (:p "This website is generated using some custom code written in Common Lisp (SBCL). The goal was to have a place to host my current and future projects, as well as polishing up my web dev chops.")
+       (:h2 "Implementation")
+       (:p "When I originally started building the site, I had a few requirements:")
+       (:ul
+         (:li "Write pages and custom tags using S-expressions")
+         (:li "Expose the entire lisp language in page and tag definitions")
+         (:li "Automatic hot reload of static assets"))
+       (:p "I'm a big fan of the homoiconicity of lisp languages, and I knew that writing the pages in S-expressions would allow me to mix tags and code relatively effortlessly. There's some other benefits as well, such as not having to write closing tags and allowing me to use some neat structural editing tools in Emacs.")
+       (:p "I tried finding a good balance between abstraction and ease of use, and after a few unsuccessful attempts I landed on simply using the quote/unquote mechanism of Common Lisp directly. Hopefully, the code will be relatively easy to understand when I get back after a few months to add more stuff.")
+       (:p "Hot reloading of the static assets are simply done by watching the assets directory from the lisp runtime and recompile all the pages. I initially had a more fancy tracking of dependencies, but the html generation is fast enough so far that it wasn't worth it (the runtime startup is avoided since the file watchers are hosted inside the lisp process).")))))
 
 ;; ** Utils
 
