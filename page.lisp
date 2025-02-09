@@ -2,6 +2,7 @@
 
 ;; * Internals
 
+(defparameter *output-path* "/tmp/public/")
 (defvar *pages* (make-hash-table))
 (defvar *tags* (make-hash-table))
 (defvar *auto-compile-pages* nil)
@@ -34,6 +35,12 @@
 
 (defun asset-path (&optional (file ""))
   (asdf:system-relative-pathname 'site (merge-pathnames "assets/" file)))
+
+(defun output-path (&optional (file ""))
+  (uiop:merge-pathnames* file *output-path*))
+
+(defun static-path (&optional (file ""))
+  (reduce #'uiop:merge-pathnames* (list "static/" file *output-path*)))
 
 (defun embed-asset (file)
   (uiop:read-file-string (asset-path file)))
@@ -106,21 +113,20 @@
   (not (null (find-package 'site/live))))
 
 (defun compile-pages ()
-  (ensure-directories-exist #P"/tmp/public/")
-  (ensure-directories-exist #P"/tmp/public/static/")
-  (alexandria:with-output-to-file (out "/tmp/public/index.html" :if-exists :supersede)
-    (render-tree out (expand-tags (funcall (get-page :index)))))
-  (alexandria:with-output-to-file (out "/tmp/public/projects.html" :if-exists :supersede)
-    (render-tree out (expand-tags (funcall (get-page :projects)))))
-  (alexandria:with-output-to-file (out "/tmp/public/project-zball.html" :if-exists :supersede)
-    (render-tree out (expand-tags (funcall (get-page :project-zball)))))
-  (alexandria:with-output-to-file (out "/tmp/public/project-site.html" :if-exists :supersede)
-    (render-tree out (expand-tags (funcall (get-page :project-site)))))
-  (uiop:copy-file (asset-path "style.css") #P"/tmp/public/static/style.css")
-  (uiop:copy-file (asset-path "live.js") #P"/tmp/public/static/live.js")
-  (uiop:copy-file (asset-path "game.js") #P"/tmp/public/static/game.js")
-  (uiop:copy-file (asset-path "game.wasm") #P"/tmp/public/static/game.wasm")
-  (uiop:copy-file (asset-path "zball.png") #P"/tmp/public/static/zball.png")
+  (ensure-directories-exist (output-path))
+  (ensure-directories-exist (static-path))
+
+  ;; Compile all pages
+  (loop :for page :being :the :hash-keys :of *pages*
+        :for file := (format nil "~A.html" (string-downcase (symbol-name page)))
+        :for path := (output-path file)
+        :do (alexandria:with-output-to-file (out path :if-exists :supersede)
+              (format t "Rendering ~A...~%" path)
+              (render-tree out (expand-tags (funcall (get-page page))))))
+
+  ;; Copy all static files
+  (loop :for path :in (uiop:directory-files (asset-path))
+        :do (uiop:copy-file path (static-path (file-namestring path))))
 
   ;; Reload browser if site/live package is loaded
   (when-let (pkg (find-package 'site/live))
@@ -131,10 +137,11 @@
   (compile-pages)
   (setf *auto-compile-pages* t)
   (when-let (pkg (find-package 'site/live))
-    (funcall (intern "START" pkg) "/tmp/public/" (asset-path))
-    (funcall (intern "ADD-HOOK" pkg) (lambda ()
-                                       (format t "Style changed - recompiling...")
-                                       (compile-pages)))))
+    (funcall (intern "START" pkg) (output-path) (asset-path))
+    (funcall (intern "ADD-HOOK" pkg)
+             (lambda ()
+               (format t "Style changed - recompiling...")
+               (compile-pages)))))
 
 ;; * Website
 
