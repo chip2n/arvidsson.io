@@ -7,7 +7,7 @@
     --accent: #52C6EB;
     --outline: #FFFFFF20;
     --focus-color: #FFFFFF;
-    --focus-width: 2px;
+    --focus-width: 1px;
     --text-primary: #FFFFFFFF;
     --text-secondary: #FFFFFF50;
 }
@@ -243,7 +243,7 @@ a:hover {
 }
 
 .project-sidebar {
-    background-color: var(--surface-sunken);
+    background-color: var(--surface-raised);
     padding: 0px 24px;
     min-width: 140px;
 }
@@ -349,6 +349,10 @@ p {
 
 ul {
     margin: 1em 0 2em 0;
+}
+
+ul ul {
+    margin: 0;
 }
 
 /* * Utilities for clickable containers */
