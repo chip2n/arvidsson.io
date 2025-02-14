@@ -1,4 +1,5 @@
 * arvidsson.io
+[[https://github.com/chip2n/arvidsson.io/workflows/deploy/badge.svg]]
 
 My personal website!
 
