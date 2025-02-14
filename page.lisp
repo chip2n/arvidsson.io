@@ -126,7 +126,8 @@
 
   ;; Copy all static files
   (loop :for path :in (uiop:directory-files (asset-path))
-        :do (uiop:copy-file path (static-path (file-namestring path))))
+        :do (format t "Copying static file ~A...~%" path)
+            (uiop:copy-file path (static-path (file-namestring path))))
 
   ;; Reload browser if site/live package is loaded
   (when-let (pkg (find-package 'site/live))
