@@ -1,0 +1,43 @@
+* arvidsson.io
+
+My personal website!
+
+This website is generated using some custom code written in Common Lisp. I've
+only tested it on Linux using SBCL.
+
+** Build the website
+
+Build the website using Nix:
+
+#+begin_src bash
+nix run .#deploy
+#+end_src
+
+The files are placed in ~./public/~.
+
+** Starting the development server
+
+The development server compiles the pages and serves the files locally using
+hunchentoot. The page is reloaded through websocket connections when a static
+file is modified, or when a tag/page definition is recompiled in the lisp image.
+
+You can start a REPL using Nix:
+
+#+begin_src bash
+nix run
+#+end_src
+
+Then you can start the development server by calling:
+
+#+begin_src lisp
+(site:start-dev)
+#+end_src
+
+... and compile the pages manually by calling:
+
+#+begin_src lisp
+(site:compile-pages)
+#+end_src
+
+When starting the development server, a separate system ~site/live~  is loaded
+which uses some extra dependencies (for watching files, serving HTTP etc).
