@@ -14,9 +14,6 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v27
 
-      - name: Fetch external dependencies
-        run: ./fetch-deps.sh
-
       - name: Build website
         run: nix run .#deploy
 

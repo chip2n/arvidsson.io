@@ -6,6 +6,7 @@
   outputs = { self, nixpkgs, ... }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
     trivial-file-watch = pkgs.sbcl.buildASDFSystem {
       pname = "trivial-file-watch";
       version = "0.0.1";
@@ -56,6 +57,7 @@
     lispDev = sbclDev.withPackages (ps: [ ps.siteDev ]);
     build-site = pkgs.writeScriptBin "build-site" ''
       #!/usr/bin/env bash
+      ./fetch-deps.sh
       ${lispDeploy}/bin/sbcl --no-userinit \
                        --eval '(require :asdf)' \
                        --eval '(require :site)' \
