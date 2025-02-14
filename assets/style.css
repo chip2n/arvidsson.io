@@ -6,10 +6,15 @@
     --surface-raised: #2c3039;
     --accent: #52C6EB;
     --outline: #FFFFFF20;
+    --highlight: #494e5a;
     --focus-color: #FFFFFF;
     --focus-width: 1px;
     --text-primary: #FFFFFFFF;
     --text-secondary: #FFFFFF50;
+}
+
+::selection {
+  background: var(--highlight);
 }
 
 html {
