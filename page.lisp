@@ -2,7 +2,7 @@
 
 ;; * Internals
 
-(defparameter *output-path* "/tmp/public/")
+(defparameter *output-path* "./public/")
 (defvar *pages* (make-hash-table))
 (defvar *tags* (make-hash-table))
 (defvar *auto-compile-pages* nil)

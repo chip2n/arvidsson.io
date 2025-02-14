@@ -2,7 +2,7 @@
   :description "My personal website"
   :author "Andreas Arvidsson <andreas@arvidsson.io>"
   :license "MIT"
-  :version "0.0.1"
+  :version "1.0.0"
   :serial t
   :depends-on (#:alexandria)
   :components ((:file "package")
