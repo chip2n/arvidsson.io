@@ -8,7 +8,14 @@ only tested it on Linux using SBCL.
 
 ** Build the website
 
-Build the website using Nix:
+To build the website, you'll first need to manually pull down the builds for all
+projects (which currently exist outside the Nix ecosystem):
+
+#+begin_src bash
+./fetch-deps.sh
+#+end_src
+
+Afterwards, build the website using Nix:
 
 #+begin_src bash
 nix run .#deploy
