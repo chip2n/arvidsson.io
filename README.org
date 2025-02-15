@@ -11,7 +11,7 @@ only tested it on Linux using SBCL.
 Build the website using Nix:
 
 #+begin_src bash
-nix run .#deploy
+nix run
 #+end_src
 
 The files are placed in ~./public/~.
@@ -22,29 +22,23 @@ The development server compiles the pages and serves the files locally using
 hunchentoot. The page is reloaded through websocket connections when a static
 file is modified, or when a tag/page definition is recompiled in the lisp image.
 
-You'll first need to manually pull down the builds for all projects (which
-currently exist outside the Nix ecosystem):
+You'll first need to manually pull down the artifacts for all projects that
+aren't being built by Nix yet:
 
 #+begin_src bash
 ./fetch-deps.sh
 #+end_src
 
-Then, start a REPL using Nix:
+Then, enter the Nix dev shell:
 
 #+begin_src bash
-nix run
+nix develop
 #+end_src
 
-Then you can start the development server by calling:
+Finally, launch ~sbcl~, load the ~site~ system and run:
 
 #+begin_src lisp
 (site:start-dev)
-#+end_src
-
-... and compile the pages manually by calling:
-
-#+begin_src lisp
-(site:compile-pages)
 #+end_src
 
 When starting the development server, a separate system ~site/live~  is loaded

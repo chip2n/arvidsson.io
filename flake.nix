@@ -6,7 +6,6 @@
   outputs = { self, nixpkgs, ... }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-
     trivial-file-watch = pkgs.sbcl.buildASDFSystem {
       pname = "trivial-file-watch";
       version = "0.0.1";
@@ -50,7 +49,6 @@
       inherit site;
     });
     sbclDev = pkgs.sbcl.withOverrides (self: super: {
-      inherit trivial-file-watch;
       inherit siteDev;
     });
     lispDeploy = sbclDeploy.withPackages (ps: [ ps.site ]);
@@ -58,29 +56,24 @@
     build-site = pkgs.writeScriptBin "build-site" ''
       #!/usr/bin/env bash
       ./fetch-deps.sh
-      ${lispDeploy}/bin/sbcl --no-userinit \
-                       --eval '(require :asdf)' \
-                       --eval '(require :site)' \
-                       --eval '(site:compile-pages)'
-    '';
-    run-repl = pkgs.writeScriptBin "run-repl" ''
-      #!/usr/bin/env bash
-      ${lispDev}/bin/sbcl --no-userinit \
-                       --eval '(require :asdf)' \
-                       --eval '(require :site)'
+      ${lispDeploy}/bin/sbcl \
+          --no-userinit \
+          --non-interactive \
+          --eval '(require :asdf)' \
+          --eval '(require :site)' \
+          --eval '(site:compile-pages)'
     '';
   in {
     apps.${system} = {
       default = {
         type = "app";
-        program = "${run-repl}/bin/run-repl";
-      };
-      deploy = {
-        type = "app";
         program = "${build-site}/bin/build-site";
       };
     };
     packages.${system}.default = build-site;
-    devShells.${system}.default = pkgs.mkShell {};
+    devShells.${system}.default = with pkgs; mkShell {
+      LD_LIBRARY_PATH = "${lib.makeLibraryPath [ openssl ]}";
+      packages = [ lispDev ];
+    };
   };
 }
