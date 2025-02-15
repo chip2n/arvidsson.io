@@ -249,7 +249,7 @@ a:hover {
 
 .project-sidebar {
     padding: 0px 24px;
-    min-width: 200px;
+    min-width: 224px;
 
     @media (max-width: 704px) {
         padding: 0px 0px;
@@ -257,7 +257,7 @@ a:hover {
 }
 
 .project-sidebar ul {
-    padding-inline-start: 32px;
+    /* padding-inline-start: 24px; */
 }
 
 .project-sidebar > ul {
@@ -351,9 +351,9 @@ a:hover {
 #project-container {
     display: flex;
     flex-direction: row;
-    gap: 48px;
+    gap: 24px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 704px) {
         flex-direction: column;
         gap: 0;
     }

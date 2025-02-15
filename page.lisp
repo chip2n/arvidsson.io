@@ -255,7 +255,11 @@
        (:div
          (:p "A clone of the classic Breakout/Arkanoid game, with way too many particle effects added. I wrote this game mainly as an exercise in actually finishing a project for once. I picked Breakout since I figured it would be one of the simpler games to make, while still providing the opportunity to extend it with more fancy stuff through power ups.")
          (:h2 "Implementation")
-         (:p "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM).")
+         (:p
+           (:span "The game is implemented using the Zig programming language. Rendering is handled with the excellent ")
+           (:$link :label "sokol" :url "https://github.com/floooh/sokol")
+           (:span " library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM)."))
+         ;; (:p "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM).")
          (:h2 "Controls")
          (:ul
            (:li "Mouse / Arrow keys: Move the paddle")
@@ -263,17 +267,17 @@
            (:li "Backspace: Open menu / Go back")))
        (:project-sidebar
         (:ul
-          (:li (:span "Language: " (:$link :label "Zig" :url "https://ziglang.org/")))
-          (:li "Platforms:"
+          (:li (:span (:b "Language: ") "Zig"))
+          (:li (:b "Platforms:")
             (:ul
               (:li "Windows")
               (:li "Mac")
               (:li "Linux")
               (:li "Web")))
-          (:li "Dependencies:"
+          (:li (:b "Dependencies:")
             (:ul
-              (:li (:$link :label "sokol" :url "https://github.com/floooh/sokol"))
-              (:li (:$link :label "stb_image" :url "https://github.com/nothings/stb"))))))))))
+              (:li "sokol")
+              (:li "stb_image")))))))))
 
 (define-tag game-canvas ()
   `(:div
@@ -311,17 +315,32 @@
     (:project-root
      :title "arvidsson.io"
      :src "https://github.com/chip2n/arvidsson.io"
-     (:div
-       (:p "This website is generated using some custom code written in Common Lisp (SBCL). The goal was to have a place to host my current and future projects, as well as polishing up my web dev chops.")
-       (:h2 "Implementation")
-       (:p "When I originally started building the site, I had a few requirements:")
-       (:ul
-         (:li "Write pages and custom tags using S-expressions")
-         (:li "Expose the entire lisp language in page and tag definitions")
-         (:li "Automatic hot reload of static assets"))
-       (:p "I'm a big fan of the homoiconicity of lisp languages, and I knew that writing the pages in S-expressions would allow me to mix tags and code relatively effortlessly. There's some other benefits as well, such as not having to write closing tags and allowing me to use some neat structural editing tools in Emacs.")
-       (:p "I tried finding a good balance between abstraction and ease of use, and after a few unsuccessful attempts I landed on simply using the quote/unquote mechanism of Common Lisp directly. Hopefully, the code will be relatively easy to understand when I get back after a few months to add more stuff.")
-       (:p "Hot reloading of the static assets are simply done by watching the assets directory from the lisp runtime and recompile all the pages. I initially had a more fancy tracking of dependencies, but the html generation is fast enough so far that it wasn't worth it (the runtime startup is avoided since the file watchers are hosted inside the lisp process).")))))
+     (:div :id "project-container"
+       (:div
+         (:p "This website is generated using some custom code written in Common Lisp (SBCL). The goal was to have a place to host my current and future projects, as well as polishing up my web dev chops.")
+         (:h2 "Implementation")
+         (:p "When I originally started building the site, I had a few requirements:")
+         (:ul
+           (:li "Write pages and custom tags using S-expressions")
+           (:li "Expose the entire lisp language in page and tag definitions")
+           (:li "Automatic hot reload of static assets"))
+         (:p "I'm a big fan of the homoiconicity of lisp languages, and I knew that writing the pages in S-expressions would allow me to mix tags and code relatively effortlessly. There's some other benefits as well, such as not having to write closing tags and allowing me to use some neat structural editing tools in Emacs.")
+         (:p "I tried finding a good balance between abstraction and ease of use, and after a few unsuccessful attempts I landed on simply using the quote/unquote mechanism of Common Lisp directly. Hopefully, the code will be relatively easy to understand when I get back after a few months to add more stuff.")
+         (:p "Hot reloading of the static assets are simply done by watching the assets directory from the lisp runtime and recompile all the pages. I initially had a more fancy tracking of dependencies, but the html generation is fast enough so far that it wasn't worth it (the runtime startup is avoided since the file watchers are hosted inside the lisp process)."))
+       (:project-sidebar
+        (:ul
+          (:li (:span (:b "Language: ") "Common Lisp"))
+          (:li (:b "Platforms:")
+            (:ul
+              (:li "Linux")))
+          (:li (:b "Dependencies:")
+            (:ul
+              (:li "alexandria")))
+          (:li (:b "Dependencies (DEV):")
+            (:ul
+              (:li "clack")
+              (:li "websocket-driver")
+              (:li "trivial-file-watch")))))))))
 
 ;; ** Utils
 
