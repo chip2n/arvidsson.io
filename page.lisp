@@ -153,6 +153,7 @@
      (:head
        (:link :rel "stylesheet" :type "text/css" :href "static/style.css")
        (:link :rel "stylesheet" :type "text/css" :href "static/prism.css")
+       (:link :rel "icon" :type "image/x-icon" :href "static/favicon.ico")
        ,(when (dev-mode-p)
           `(:script :type "text/javascript" :src "static/live.js"))
        (:meta :name "viewport" :content "width=device-width, initial-scale=1"))
