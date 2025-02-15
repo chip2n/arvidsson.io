@@ -159,8 +159,8 @@
      (:body
        (:div :id "root-container"
          (:site-header
-          (:$link :label "[home]" :url "index.html")
-          (:$link :label "[projects]" :url "projects.html"))
+          (:a :href "index.html" :aria-label "Home" "[home]")
+          (:a :href "projects.html" :aria-label "Projects" "[projects]"))
          (:div :id "root-content" ,@body)
          (:site-footer)))))
 
@@ -168,23 +168,26 @@
   `(:div
      (:div :id "site-header"
        ;; TODO content description?
-       (:a :id "logo" :href "index.html" ,(embed-asset "logo.svg"))
+       (:div :aria-hidden t ,(embed-asset "logo.svg"))
        (:div :id "site-header-menu"
          (:ul :class "h-menu"
            ,@(loop :for form :in body :collect `(:li ,form)))
-         (:a :class "menu-item-icon" :href "https://github.com/chip2n"
-           ,(embed-asset "icon-github.svg"))))))
+         (:a
+           :class "menu-item-icon"
+           :href "https://github.com/chip2n"
+           :aria-label "GitHub"
+           (:div :aria-hidden t ,(embed-asset "icon-github.svg")))))))
 
 (define-tag site-footer ()
   `(:div :id "site-footer"
      (:hr)
-     (:p "λ")))
+     (:p :aria-hidden t "λ")))
 
 (define-tag page-header (title src)
   `(:div :class "page-header"
      (:h1 ,title)
      ,(when src
-        `(:$link :label "[source]" :url ,src))
+        `(:a :href ,src :aria-label "Source" "[source]"))
      ,@body))
 
 ;; ** Page: index.html
@@ -233,9 +236,9 @@
 
 (define-tag project-card (title img tags url)
   `(:div :class "project-card clickable-parent focusable-parent"
-     (:div :class "image"
+     (:div :class "image" :aria-hidden t
        ,img)
-     (:hr)
+     (:hr :aria-hidden t)
      (:div :class "details"
        (:a :href ,url (:h2 ,title))
        (:div :class "project-body"
@@ -257,16 +260,15 @@
          (:h2 "Implementation")
          (:p
            (:span "The game is implemented using the Zig programming language. Rendering is handled with the excellent ")
-           (:$link :label "sokol" :url "https://github.com/floooh/sokol")
+           (:a :href "https://github.com/floooh/sokol" "sokol")
            (:span " library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM)."))
-         ;; (:p "The game is implemented using the Zig programming language. Rendering is handled with the excellent sokol library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM).")
          (:h2 "Controls")
          (:ul
            (:li "Mouse / Arrow keys: Move the paddle")
            (:li "Space: Activate power-up")
            (:li "Backspace: Open menu / Go back")))
        (:project-sidebar
-        (:ul
+        (:ul :aria-label "Project information"
           (:li (:span (:b "Language: ") "Zig"))
           (:li (:b "Platforms:")
             (:ul
@@ -328,7 +330,7 @@
          (:p "I tried finding a good balance between abstraction and ease of use, and after a few unsuccessful attempts I landed on simply using the quote/unquote mechanism of Common Lisp directly. Hopefully, the code will be relatively easy to understand when I get back after a few months to add more stuff.")
          (:p "Hot reloading of the static assets are simply done by watching the assets directory from the lisp runtime and recompile all the pages. I initially had a more fancy tracking of dependencies, but the html generation is fast enough so far that it wasn't worth it (the runtime startup is avoided since the file watchers are hosted inside the lisp process)."))
        (:project-sidebar
-        (:ul
+        (:ul :aria-label "Project information"
           (:li (:span (:b "Language: ") "Common Lisp"))
           (:li (:b "Platforms:")
             (:ul
@@ -341,8 +343,3 @@
               (:li "clack")
               (:li "websocket-driver")
               (:li "trivial-file-watch")))))))))
-
-;; ** Utils
-
-(define-tag $link (label url)
-  `(:a :href ,url ,label))
