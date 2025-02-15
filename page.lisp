@@ -263,6 +263,7 @@
            (:span "The game is implemented using the Zig programming language. Rendering is handled with the excellent ")
            (:a :href "https://github.com/floooh/sokol" "sokol")
            (:span " library (through the sokol-zig bindings), allowing it to be exported to multiple platforms including the web (through WASM)."))
+         (:p "The desktop version has a simple level editor (although adding new levels requires recompiling the project, since they're embedded in the binary).")
          (:h2 "Controls")
          (:ul
            (:li "Mouse / Arrow keys: Move the paddle")
