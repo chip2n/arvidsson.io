@@ -15,7 +15,7 @@ jobs:
         uses: cachix/install-nix-action@v27
 
       - name: Build website
-        run: nix run .#deploy
+        run: nix run
 
       - name: Deploy to Pages
         uses: actions/upload-pages-artifact@v3
