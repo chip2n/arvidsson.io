@@ -291,7 +291,9 @@
 (define-tag game-canvas ()
   `(:div
      (:div :id "game-container"
-       (:canvas :class "game" :id "canvas" :oncontextmenu "event.preventDefault()"))
+       (:canvas :class "game" :id "canvas" :oncontextmenu "event.preventDefault()")
+       (:div :id "game-overlay"
+         (:button :id "load-button" ,(embed-asset "play-btn.svg"))))
      (:script "
       var Module = {
         preRun: [],
@@ -314,8 +316,14 @@
       };
       window.onerror = function() {
         console.log(\"onerror: \" + event.message);
-      };")
-     (:script :async t :src "static/game.js")))
+      };
+      document.getElementById('load-button').addEventListener('click', function() {
+          var script = document.createElement('script');
+          script.src = 'static/game.js';
+          document.body.appendChild(script);
+		  document.getElementById('game-overlay').remove();
+      });
+")))
 
 ;; *** Page: project-site.html
 
