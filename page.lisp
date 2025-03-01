@@ -258,6 +258,11 @@
      (:div :id "project-container"
        (:div
          (:p "A clone of the classic Breakout/Arkanoid game, with way too many particle effects added. I wrote this game mainly as an exercise in actually finishing a project for once. I picked Breakout since I figured it would be one of the simpler games to make, while still providing the opportunity to extend it with more fancy stuff through power ups.")
+         (:h2 "Controls")
+         (:ul
+           (:li "Mouse / Arrow keys: Move the paddle")
+           (:li "Space: Activate power-up")
+           (:li "Backspace: Open menu / Go back"))
          (:h2 "Implementation")
          (:p
            (:span "The game is implemented using the Zig programming language. Rendering is handled with the excellent ")
@@ -267,13 +272,7 @@
          (:p
            (:span "All sound effects are made by me using ")
            (:a :href "https://dirtywave.com/" "Dirtywave M8")
-           (:span ".")
-           )
-         (:h2 "Controls")
-         (:ul
-           (:li "Mouse / Arrow keys: Move the paddle")
-           (:li "Space: Activate power-up")
-           (:li "Backspace: Open menu / Go back")))
+           (:span ".")))
        (:project-sidebar
         (:ul :aria-label "Project information"
           (:li (:span (:b "Language: ") "Zig"))
